@@ -1,8 +1,8 @@
 package org.triplea.java;
 
-import com.google.common.base.Preconditions;
 import java.awt.Color;
 import java.util.Random;
+
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -13,14 +13,11 @@ public class ColorUtils {
    * @param colorString EG: 00FF00, FF00FF, 000000
    */
   public Color fromHexString(final String colorString) {
-    Preconditions.checkArgument(
-        colorString.length() == 6,
-        "Colors must be 6 digit hex numbers, eg FF0011, not: " + colorString);
     try {
-      return new Color(Integer.decode("0x" + colorString));
+      return Color.decode("#" + colorString);
     } catch (final NumberFormatException nfe) {
       throw new IllegalArgumentException(
-          "Colors must be 6 digit hex numbers, eg FF0011, not: "
+          "Colors must be 6 digit hex numbers (without the preceding hash), eg FF0011, not: "
               + colorString
               + ", "
               + nfe.getMessage(),
@@ -31,6 +28,6 @@ public class ColorUtils {
   /** Returns a randomly generated color using a fixed random seed. */
   public Color randomColor(final long randomSeed) {
     final Random random = new Random(randomSeed);
-    return Color.getHSBColor(random.nextFloat(), random.nextFloat(), random.nextFloat());
+    return Color.getHSBColor(random.nextFloat(), random.nextFloat(), 0.5f);
   }
 }
