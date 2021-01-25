@@ -33,7 +33,7 @@ public interface OverTimeStatisticType {
 
     @Override
     public String getAxisLabel() {
-      return String.format("%ss", resource.getName());
+      return resource.getName();
     }
   }
 }
