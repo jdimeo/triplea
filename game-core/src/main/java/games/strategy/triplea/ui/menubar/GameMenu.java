@@ -14,6 +14,8 @@ import games.strategy.triplea.ui.TripleAFrame;
 import games.strategy.triplea.ui.UiContext;
 import games.strategy.triplea.ui.VerifiedRandomNumbersDialog;
 import games.strategy.triplea.ui.statistics.StatisticsDialog;
+
+import java.awt.Dialog.ModalExclusionType;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
@@ -22,6 +24,7 @@ import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -75,9 +78,7 @@ final class GameMenu extends JMenu {
     addNotificationSettings();
     addShowDiceStats();
     addRollDice();
-    if (ClientSetting.showBetaFeatures.getValueOrThrow()) {
-      addStatistics();
-    }
+    addStatistics();
     addMenuItemWithHotkey(
         SwingAction.of(
             "Battle Calculator",
@@ -301,14 +302,14 @@ final class GameMenu extends JMenu {
   }
 
   private void addStatistics() {
-    add(
-        SwingAction.of(
-            "Game statistics",
-            e ->
-                JOptionPane.showMessageDialog(
-                    frame,
-                    new StatisticsDialog(gameData, uiContext.getMapData()),
-                    "Game statistics",
-                    JOptionPane.INFORMATION_MESSAGE)));
+    add(SwingAction.of("Game statistics", e -> {
+    	final JFrame statFrame = new JFrame(frame.getTitle() + " - Game statistics");
+    	statFrame.setIconImage(frame.getIconImage());
+    	statFrame.setAutoRequestFocus(true);
+    	statFrame.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+    	statFrame.setContentPane(new StatisticsDialog(gameData, uiContext.getMapData()));
+    	statFrame.setSize(750, 600);
+    	statFrame.setVisible(true);
+    }));
   }
 }
