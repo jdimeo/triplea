@@ -19,17 +19,19 @@ public final class PlayerColors {
   public static final String PLAYER_NAME_IMPASSABLE_LEGACY_SPELLING = "Impassible";
   public static final Color DEFAULT_IMPASSABLE_COLOR = ColorUtils.fromHexString("DEB887");
 
+  // This color palette is from Colorbrewer2 which helps them be as distinguishable and coherent as possible
+  // for map applications: https://colorbrewer2.org/?type=qualitative&scheme=Accent&n=8
   @VisibleForTesting
   static final ImmutableList<Color> COLORS =
       ImmutableList.of(
-          Color.RED,
-          Color.MAGENTA,
-          Color.YELLOW,
-          Color.ORANGE,
-          Color.CYAN,
-          Color.GREEN,
-          Color.PINK,
-          Color.GRAY);
+    	Color.decode("#7fc97f"),
+    	Color.decode("#beaed4"),
+    	Color.decode("#fdc086"),
+    	// Skipping yellow since it's too light/hard to see for uses outside the map itself
+    	Color.decode("#386cb0"),
+    	Color.decode("#f0027f"),
+    	Color.decode("#bf5b17"),
+    	Color.decode("#666666"));
 
   @VisibleForTesting static final int DEFAULT_COLOR_COUNT = COLORS.size();
 
